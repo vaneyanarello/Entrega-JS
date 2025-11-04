@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+            <div class="logo">Fulana Ind</div>
+            
+            <nav class="navbar">
+                <ul>
+                <li><a href="./index.html">Inicio</a></li>
+                <li><a href="#">Productos</a></li>
+                <li><a href="#">Ofertas</a></li>
+                <li><a href="#">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+    <main class="main">
+        <form id="formulario">
+            <label>Nombre:</label>
+            <input type="text" required>
+        
+            <label>Correo electrónico:</label>
+            <input type="email">
+        
+            <label>Mensaje:</label>
+            <textarea rows="5" required></textarea>
+        
+            <button type="submit">Enviar</button>
+        </form>
+
+        <div id="popup" class="popup">
+                <div class="popup-content">
+                    <span id="cerrar">&times;</span>
+                    <p id="popup-text">Muchas gracias, hemos recibido sus comentarios</p>
+                </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Fulana Ind - Todos los derechos reservados</p>
+        </footer>
+
+        <script src="contacto.js"></script>
+
+</body>
+</html>

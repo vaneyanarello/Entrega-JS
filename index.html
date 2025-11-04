@@ -1,11 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <script src="app.js"></script>
-</body>
-</html>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        
+        <header>
+            <div class="logo">Fulana Ind</div>
+            
+            <nav class="navbar">
+                <ul>
+                <li><a href="./index.html">Inicio</a></li>
+                <li><a href="#">Productos</a></li>
+                <li><a href="#">Ofertas</a></li>
+                <li><a href="./contacto.html">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+        
+            <div id="prd">
+                <h1 class="tit">Tienda</h1>
+                <div id="imgs">
+                    <img class=img src="./assets/img/remera.jpg" alt="">
+                    <img class=img src="./assets/img/pantalon.jpg" alt="">
+                    <img class=img src="./assets/img/buzo.jpg" alt="">
+                    <img class=img src="./assets/img/campera.jpg" alt="">
+                </div> 
+                <div id="articulos">
+                <h3></h3>
+                <p></p>
+                <p></p>
+                </div>
+                <!-- <button id="btn"></button> -->
+            </div>
+        
+            <div id="crt">
+                <div>                
+                    <p id="titcar">Carrito de compras</p>
+                </div>
+                <div id="contcar">
+                    <div id="carrito">
+                        <div>
+                            <button></button>
+                            <button></button>
+                        </div>
+                    </div>
+                    <div id="subtot">
+                        <p></p>
+                        <p></p>
+                    </div>
+                </div>
+            </div>    
+            
+            <div id="popup" class="popup">
+                <div class="popup-content">
+                    <p id="popup-text">Producto agregado al carrito</p>
+                </div>
+            </div>
+
+        </main>
+        
+        <footer>
+        <p>© 2025 Fulana Ind - Todos los derechos reservados</p>
+        </footer>
+
+
+
+
+
+        <script src="app.js"></script>
+    </body>
+    </html>
