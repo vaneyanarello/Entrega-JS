@@ -1,0 +1,33 @@
+[
+    {
+    "id": 1,
+    "nombre": "Remera",
+    "precio": 15000,
+    "talle": ["S", "M", "L"],
+    "imagen": "./assets/img/remera.jpg"
+    },
+
+    {
+    "id": 2,    
+    "nombre": "Pantalón",
+    "precio": 25000,
+    "talle": ["S", "M", "L"],
+    "imagen": "./assets/img/pantalon.jpg"
+    },
+
+    {
+    "id":3,
+    "nombre": "Buzo",
+    "precio": 20000,
+    "talle": ["S", "M", "L"],
+    "imagen": "./assets/img/buzo.jpg"
+    },
+
+    {
+    "id":4,
+    "nombre": "Campera",
+    "precio": 50000,
+    "talle": ["S", "M", "L"],
+    "imagen": "./assets/img/campera.jpg"
+    }
+]

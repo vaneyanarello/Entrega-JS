@@ -5,32 +5,36 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <link rel="stylesheet" href="style.css">
+        <link rel="shortcut icon" href="./assets/img/logo.jpg" type="image/x-icon">
     </head>
-    <body>
-        
+    <body>        
         <header>
-            <div class="logo">Fulana Ind</div>
+            <div class="logo"> <img src="./assets/img/logo.jpg" class="imglogo" alt="">
+                <div class="logoname">Fulana Ind</div>
+            </div>
             
             <nav class="navbar">
                 <ul>
-                <li><a href="./index.html">Inicio</a></li>
-                <li><a href="#">Productos</a></li>
-                <li><a href="#">Ofertas</a></li>
-                <li><a href="./contacto.html">Contacto</a></li>
+                    <li><a href="./index.html">Inicio</a></li>
+                    <li><a href="#">Productos</a></li>
+                    <li><a href="#">Ofertas</a></li>
+                    <li><a href="./contacto.html">Contacto</a></li>
                 </ul>
             </nav>
+            <input type="text" id="buscador" placeholder="Buscar producto...">
         </header>
 
         <main>
-        
+            
             <div id="prd">
-                <h1 class="tit">Tienda</h1>
+                <h1 class="tit">Productos destacados</h1>
                 <div id="imgs">
-                    <img class=img src="./assets/img/remera.jpg" alt="">
+                    <!-- <img class=img src="./assets/img/remera.jpg" alt="">
                     <img class=img src="./assets/img/pantalon.jpg" alt="">
                     <img class=img src="./assets/img/buzo.jpg" alt="">
-                    <img class=img src="./assets/img/campera.jpg" alt="">
+                    <img class=img src="./assets/img/campera.jpg" alt=""> -->
                 </div> 
+
                 <div id="articulos">
                 <h3></h3>
                 <p></p>
@@ -41,13 +45,11 @@
         
             <div id="crt">
                 <div>                
-                    <p id="titcar">Carrito de compras</p>
+                    <h2 id="titcar">Carrito de compras</h2>
                 </div>
                 <div id="contcar">
                     <div id="carrito">
                         <div>
-                            <button></button>
-                            <button></button>
                         </div>
                     </div>
                     <div id="subtot">
@@ -69,10 +71,7 @@
         <p>© 2025 Fulana Ind - Todos los derechos reservados</p>
         </footer>
 
-
-
-
-
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="app.js"></script>
     </body>
     </html>

@@ -1,26 +1,65 @@
 //! PRODUCTOS
 
-const productos = [
-    {nombre: "Remera",
-    precio: 15000,
-    talle: ["S", "M", "L"],
-    },
+// const productos = [
+//     {
+//     id: 1,
+//     nombre: "Remera",
+//     precio: 15000,
+//     talle: ["S", "M", "L"],
+//     },
 
-    {nombre: "Pantalón",
-    precio: 25000,
-    talle: ["S", "M", "L"]
-    },
+//     {
+//     id: 2,    
+//     nombre: "Pantalón",
+//     precio: 25000,
+//     talle: ["S", "M", "L"]
+//     },
 
-    {nombre: "Buzo",
-    precio: 20000,
-    talle: ["S", "M", "L"]
-    },
+//     {
+//     id:3,
+//     nombre: "Buzo",
+//     precio: 20000,
+//     talle: ["S", "M", "L"]
+//     },
 
-    {nombre: "Campera",
-    precio: 50000,
-    talle: ["S", "M", "L"]
+//     {
+//     id:4,
+//     nombre: "Campera",
+//     precio: 50000,
+//     talle: ["S", "M", "L"]
+//     }
+// ];
+
+let productos = []; 
+
+async function cargarProductos() {
+    try {
+        const response = await fetch('prods.json');
+        productos = await response.json();
+        cargarDOM();
+    } catch (error) {
+        console.error("Error cargando productos:", error);
+
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+            footer: '<a href="#">Why do I have this issue?</a>'
+});
     }
-];
+}
+cargarProductos(); 
+
+const buscador = document.getElementById("buscador");
+
+buscador.addEventListener("input", () => {
+    const texto = buscador.value.toLowerCase();
+    const productosFiltrados = productos.filter(producto =>
+        producto.nombre.toLowerCase().includes(texto)
+    );
+    cargarDOM(productosFiltrados);
+});
+
 
 //! CARRITO
 
@@ -28,70 +67,130 @@ let carrito = [];
 let total = 0
 let cantidad = 0
 
+
 //! DIV PRD
 
 //cargar prods visibles en html, que se agreguen al carrito y que se modifiquen subtotales
 
-const cargarDOM = () => {
+const cargarDOM = (listaProductos = productos) => {
+    const articulos = document.getElementById("articulos");
+    articulos.innerHTML = "";
 
-    const articulos = document.getElementById("articulos")
+        listaProductos.forEach((producto) => {
+            let div = document.createElement("div");
+            div.className = "producto";
+            div.innerHTML = `
+            <div class="cardProd" id="id${producto.id}">
+            <div class=cardtext>
+            <img src="${producto.imagen}" alt="${producto.nombre}" class="img" id="${producto.id}">     
+            <h3>${producto.nombre}</h3>
+            <p>$${producto.precio}</p>
+            <label for="talle-${producto.id}">Talle:</label>
+            <select class="seltalle" id="talle-${producto.id}">
+                ${producto.talle.map(t => `<option value="${t}">${t}</option>`).join("")}
+            </select> 
+            </div>
+            <button class="btn">Agregar al carrito</button>
+            </div>`;
+            
+            const button = div.querySelector("button.btn");
+            // let button = document.createElement("button");
+            // button.className = "btn";
+            // button.innerHTML = "Agregar al carrito";
+            
 
-    productos.forEach((producto) =>{
-        let div = document.createElement("div");
-        div.className = "producto";
-        div.innerHTML = `
-        <h3>${producto.nombre}</h3>
-        <p>$${producto.precio}</p>
-    <p>Talles disponibles: ${producto.talle.join(", ")}</p>`;
-        
-        let button = document.createElement("button");
-        button.className="btn";
-        button.innerHTML="Agregar al carrito";
+            button.addEventListener("click", () => {
+                const selectTalle = document.getElementById(`talle-${producto.id}`);
+                const talleSeleccionado = selectTalle.value;
+                agregarCarrito(producto, talleSeleccionado);
+                actualizarCarrito();
+            });
 
-        button.addEventListener("click", () =>{
-            agregarCarrito(producto);
-            // alert(`${producto.nombre.toUpperCase()}" ha sido agregado al carrito"`);
-            actualizarCarrito ();
-            cantidad+=1;
-            total+= producto.precio; 
-            const subtotal = document.getElementById("subtot");
-        subtotal.innerHTML=`
-        <p>Productos totales: ${cantidad}</p>
-        <p>Subtotal: $${total}</p>`           
+            // div.appendChild(button);
+            articulos.appendChild(div);
         });
+    };
 
-        div.appendChild(button)
-        articulos.appendChild(div);
-})}
+// const cargarDOM = () => {
+
+//     const articulos = document.getElementById("articulos")
+
+//     productos.forEach((producto) =>{
+//         let div = document.createElement("div");
+//         div.className = "producto";
+//         div.innerHTML = `
+//         <h3>${producto.nombre}</h3>
+//         <p>$${producto.precio}</p>
+//     <p>Talles disponibles: ${producto.talle.join(", ")}</p>`;
+        
+//         let button = document.createElement("button");
+//         button.className="btn";
+//         button.innerHTML="Agregar al carrito";
+
+//         button.addEventListener("click", () =>{
+//             agregarCarrito(producto);
+//             // alert(`${producto.nombre.toUpperCase()}" ha sido agregado al carrito"`);
+//             // actualizarCantidad();
+//             // cantidad+=1;
+//             actualizarCarrito ();
+//             total+= producto.precio*cantidad; 
+//             const subtotal = document.getElementById("subtot");
+//         // subtotal.innerHTML=`
+//         // <p>Productos totales: ${cantidad}</p>
+//         // <p>Subtotal: $${total}</p>`           
+//         });
+
+//         div.appendChild(button)
+//         articulos.appendChild(div);
+// })}
 
 //! DIV CRT
 
 //Que me vaya sumando productos y me tire un popup (hacer funcion del popup):
 
-const agregarCarrito = (producto) => {
-    const itemAgregado = carrito.find (item => item.nombre === producto.nombre);
+const agregarCarrito = (producto, talle) => {
+    const itemAgregado = carrito.find (item => item.nombre === producto.nombre && item.talle == talle);
 
     if(itemAgregado){
         itemAgregado.cantidad += 1;
     }
     else
-        carrito.push({...producto, cantidad:1});
-    
-    mostrarPopup("El producto se ha agregado al carrito");}
+        carrito.push({...producto, cantidad:1, talle: talle});
+    Swal.fire("Producto agregado al carrito!");
+
+    // mostrarPopup("El producto se ha agregado al carrito");
+}
 
 //popup
 
-function mostrarPopup(mensaje) {
-    const popup = document.getElementById("popup");
-    const textoPop = document.getElementById("popup-text");
+// function mostrarPopup(mensaje) {
+//     const popup = document.getElementById("popup");
+//     const textoPop = document.getElementById("popup-text");
 
-    textoPop.textContent = mensaje;
-    popup.style.display = "flex";
+//     textoPop.textContent = mensaje;
+//     popup.style.display = "flex";
 
-    setTimeout(() => {
-    popup.style.display = "none";
-    }, 2000);
+//     setTimeout(() => {
+//     popup.style.display = "none";
+//     }, 2000);
+// }
+
+function calcularSubtotal() {
+    let subtotal = 0;
+    carrito.forEach(item => {
+        subtotal += item.precio * item.cantidad;
+    });
+    return subtotal;
 }
+
+function calcularCantidadTotal() {
+    let totalUnidades = 0;
+    carrito.forEach(item => {
+        totalUnidades += item.cantidad;
+    });
+    return totalUnidades;
+}
+
 
 //Que se muestre la lista al costado 
 //TODO (me falta agregarlo al button event):
@@ -102,22 +201,150 @@ const actualizarCarrito = () =>{
 
     carrito.forEach ((item) => {
         let div = document.createElement("div");
-        div.className="listadoCarrito"
+        div.className="listadoCarrito";
         div.innerHTML=`
-        ${item.nombre.toUpperCase()}
-        <button class="menos">-</button>
+        <img src="${item.imagen}"    class="imgcarrito">
+        <div class="itemcarrito">
+        ${item.nombre}
+        - Talle: ${item.talle}
+        </div>
+        <div class="contador">
+        <button class="menos" data-id="${item.id}">-</button>
         ${item.cantidad}
-        <button class="mas">+</button> 
-        $${item.precio*item.cantidad}`; //! AGREGARLE EVENT A LOS BOTONES
+        <button class="mas" data-id="${item.id}">+</button>
+        </div>
+        <div class="preciocarrito">
+        $${item.precio*item.cantidad}
+        </div>`; //! AGREGARLE EVENT A LOS BOTONES
         
-//--------------------------------------------------------------------
+prodsCarrito.appendChild(div);
+
+const botonMenos = document.querySelectorAll(".menos");
+const botonMas = document.querySelectorAll(".mas");
+
+// botonMenos.forEach((btn) => {
+// btn.addEventListener("click", (e) => {
+// let prodCarrito = carrito.find((prod) => prod.id == e.target.dataset.id);
+// if (prodCarrito.cantidad > 1) {
+// prodCarrito.cantidad--;
+// total -= prodCarrito.precio;
+// cantidad--;
+// } else {
+// carrito = carrito.filter((prod) => prod.nombre !== prodCarrito.nombre);
+// cantidad--;
+//     Swal.fire({
+//     title: "Producto eliminado",
+//     text: `Has eliminado ${item.nombre} del carrito`,
+//     icon: "warning",
+//     showCancelButton: true,
+//     confirmButtonColor: "#3085d6",
+//     cancelButtonColor: "#d33",
+//     confirmButtonText: "Entendido"
+//     }).then((result) => {
+//     if (result.isConfirmed) {
+//         Swal.fire({
+//         title: "Eliminado!",
+//         text: "Tu producto ha sido eliminado",
+//         icon: "success"
+//         });
+//     }
+// });
+// }
+botonMenos.forEach((btn) => {
+btn.addEventListener("click", async (e) => {
+let prodCarrito = carrito.find((prod) => prod.id == e.target.dataset.id);
+if (prodCarrito.cantidad > 1) {
+prodCarrito.cantidad--;
+total -= prodCarrito.precio;
+cantidad--;
+} else {
+    const result = await
+    Swal.fire({
+        title: "Desea eliminar producto?",
+        text: `Estás eliminando ${item.nombre} del carrito`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#000000ff",
+        cancelButtonColor: "rgba(0, 0, 0, 1)",
+        confirmButtonText: "Continuar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            carrito = carrito.filter((prod) => prod.nombre !== prodCarrito.nombre);
+            cantidad--;
+            Swal.fire({
+                title: "Eliminado!",
+                text: "Tu producto ha sido eliminado",
+                icon: "success"
+            });
+    }
+});
+}
+
+actualizarCarrito();
+});
+});
+
+botonMas.forEach((btn) => {
+btn.addEventListener("click", (e) => {
+let prodCarrito = carrito.find((prod) => prod.id == e.target.dataset.id);
+prodCarrito.cantidad++;
+total += prodCarrito.precio;
+cantidad++;
+actualizarCarrito();
+});
+})
+// botonMenos.forEach((btn) => {
+//     btn.addEventListener("click", () =>{
+//         if (item.cantidad > 1){
+//             item.cantidad--;
+//                 total -= item.precio;
+//                 cantidad--;
+//                 console.log("menosif");
+                
+//             } 
+//             else {
+//                 carrito = carrito.filter((prod) => prod.nombre !== item.nombre);
+//                 cantidad--;
+//                 console.log("menoselse")
+//             }
+//             actualizarCarrito();
+//         });
+//     });
+    
+//     botonMas.forEach((btn)=>{
+//         btn.addEventListener("click", () => {
+//             item.cantidad++;
+//             total += item.precio;
+//             cantidad++;
+//             actualizarCarrito();
+//             console.log("mas");
+//             console.log(cantidad);
+            
+            
+//         });
+//     });
+});
+const subtotal = calcularSubtotal();
+document.getElementById("subtot").innerHTML = `
+    <p>Subtotal: $${subtotal}</p>
+`;
+const cantidadTotal = calcularCantidadTotal();
+
+document.getElementById("subtot").innerHTML = `
+    <p>Cantidad de productos: ${cantidadTotal}</p>
+    <p>Subtotal: $${subtotal}</p>
+`;
+
+};
+        //--------------------------------------------------------------------
         
         // const botonMenos = document.getElementsByClassName("menos");
         // const botonMas = document.getElementsByClassName("mas");
 
         // botonMenos.addEventListener("click", () =>{
         //     if (item.cantidad > 1){
-        //         item.cantidad --;
+        //         item.cantidad--;
         //         total -= item.precio;
         //         cantidad--;
         //     } 
@@ -160,9 +387,6 @@ const actualizarCarrito = () =>{
             // })
 
 //--------------------------------------------------------------------
-        prodsCarrito.appendChild(div);
-    })
-}
 
 cargarDOM();
 actualizarCarrito();
