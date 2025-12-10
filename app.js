@@ -191,7 +191,7 @@ let subtotal = codigoAplicado ? calcularSubtotal() * 0.9 : calcularSubtotal();
 //         <p>Cantidad de productos: ${cantidadTotal}</p>
 //         <p>Subtotal: $${subtotal}${codigoAplicado ? " (Descuento del 10% aplicado)" : ""}</p>`;
 
-console.log(subtotal, "1");
+// console.log(subtotal, "1");
 
 
 const cantidadTotal = calcularCantidadTotal();
@@ -199,18 +199,9 @@ const cantidadTotal = calcularCantidadTotal();
 document.getElementById("subtot").innerHTML = `
     <p>Cantidad de productos: ${cantidadTotal}</p>
     <p id="subtotalp">Subtotal: $${subtotal}${codigoAplicado ? ` (10% off aplicado)` : ""}</p>`;
-    console.log(subtotal, "2");
+    // console.log(subtotal, "2");
 };
 
-
-// const buscador = document.getElementById("buscador");
-
-// buscador.addEventListener("input", () => {
-//     const texto = buscador.value.toLowerCase();
-//     const productosFiltrados = productos.filter(producto =>
-//         producto.nombre.toLowerCase().includes(texto)
-//     );
-//     cargarDOM(productosFiltrados);
 
 const dto = document.getElementById("descuento");
 const btnDto = document.getElementById("btndto");
